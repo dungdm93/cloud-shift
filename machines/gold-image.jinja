@@ -1,0 +1,12 @@
+resources:
+- name: {{ env['deployment'] }}-empty-disk
+  type: compute.v1.disk
+  properties:
+    description: 'An empty disk, just used for create empty image'
+    zone: us-central1-a
+    sizeGb: 1
+- name: {{ env['deployment'] }}-empty-image
+  type: compute.v1.image
+  properties:
+    description: 'An empty image, used by OpenShift instance templates'
+    sourceDisk: $(ref.{{ env['deployment'] }}-empty-disk.selfLink)
