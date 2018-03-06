@@ -27,15 +27,7 @@ resources:
         items:
         - key: user-data
           value: |
-            #cloud-config
-            write_files:
-            - path: /etc/sysconfig/docker-storage
-              content: |
-                DOCKER_STORAGE_OPTIONS='--storage-driver overlay2'
-              permissions: '0644'
-
-            runcmd:
-            - [ /usr/sbin/restorecon, -R, /var/lib/docker ]
+            {{ imports['masters.cloudinit'] | indent(12) }}
       serviceAccounts:
       - scopes:
         - https://www.googleapis.com/auth/cloud.useraccounts.readonly

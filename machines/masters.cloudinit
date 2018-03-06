@@ -1,0 +1,9 @@
+#cloud-config
+write_files:
+- path: /etc/sysconfig/docker-storage
+  content: |
+    DOCKER_STORAGE_OPTIONS='--storage-driver overlay2'
+  permissions: '0644'
+
+runcmd:
+- [ /usr/sbin/restorecon, -R, /var/lib/docker ]

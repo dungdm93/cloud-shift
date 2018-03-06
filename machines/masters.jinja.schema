@@ -4,8 +4,8 @@ info:
   description: OpenShift Template for master nodes
   version: 1.0
 
-#imports:
-#- path: master.cloudinit
+imports:
+- path: masters.cloudinit
 
 required:
 - region
