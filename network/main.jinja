@@ -1,0 +1,5 @@
+resources:
+- name: {{ env['deployment'] }}-network
+  type: compute.v1.network
+  properties:
+    autoCreateSubnetworks: true
