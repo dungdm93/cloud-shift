@@ -1,7 +1,17 @@
 imports:
 - name: openshift-network.jinja
   path: network/main.jinja
+- name: openshift-masters.jinja
+  path: machines/masters.jinja
 
 resources:
 - name: openshift-network
   type: openshift-network.jinja
+- name: openshift-masters
+  type: openshift-masters.jinja
+  properties:
+    region: us-central1
+    openshift_master_machine_type: n1-standard-1
+    openshift_master_boot_disk_size: 10
+    openshift_master_instance_group_size: 3
+    openshift_console_port: 443
