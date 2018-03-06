@@ -29,14 +29,14 @@ resources:
         boot: false
         initializeParams:
           diskSizeGb: {{ properties['openshift_infra_docker_disk_size'] }}
-          diskType: pd-ssd
+          diskType:   pd-ssd
         autoDelete: true
       - deviceName: openshift
         type: PERSISTENT
         boot: false
         initializeParams:
           diskSizeGb: {{ properties['openshift_infra_openshift_disk_size'] }}
-          diskType: pd-ssd
+          diskType:   pd-ssd
         autoDelete: true
       metadata:
         items:

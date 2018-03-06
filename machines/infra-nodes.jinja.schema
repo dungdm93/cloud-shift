@@ -1,0 +1,47 @@
+info:
+  title: OpenShift infra
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift Template for infra nodes
+  version: 1.0
+
+#imports:
+#- path: infra-nodes.cloudinit
+
+required:
+- region
+
+properties:
+  region:
+    type: string
+    metadata: gce-region
+    description: Region to run
+
+  openshift_infra_machine_type:
+    type: string
+    default: n1-standard-4
+    metadata: gce-machine-type
+    description: CPU cores, memory and GPUs of infra nodes.
+
+  openshift_infra_boot_disk_size:
+    type: integer
+    default: 10
+    minimum: 10
+    description: Size (GB) of boot disk
+
+  openshift_infra_docker_disk_size:
+    type: integer
+    default: 25
+    minimum: 10
+    description: Size (GB) of disk where store Docker images
+
+  openshift_infra_openshift_disk_size:
+    type: integer
+    default: 50
+    minimum: 10
+    description: Size (GB) of disk used by OpenShift
+
+  openshift_infra_instance_group_size:
+    type: integer
+    default: 3
+    minimum: 1
+    description: Number of infra instances
