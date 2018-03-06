@@ -7,15 +7,34 @@ info:
 #imports:
 #- path: master.cloudinit
 
-#required:
-#- region
+required:
+- region
 
-#properties:
-#  IPv4Range:
-#    type: string
-#    description: Range of the network
-#
-#  description:
-#    type: string
-#    default: "My super great network"
-#    description: Description of network
+properties:
+  region:
+    type: string
+    metadata: gce-region
+    description: Region to run
+
+  openshift_master_machine_type:
+    type: string
+    default: n1-standard-4
+    metadata: gce-machine-type
+    description: CPU cores, memory and GPUs of master nodes.
+
+  openshift_master_boot_disk_size:
+    type: integer
+    default: 10
+    minimum: 10
+    description: Size (GB) of boot disk
+
+  openshift_master_instance_group_size:
+    type: integer
+    default: 3
+    minimum: 1
+    description: Number of master instances
+
+  openshift_console_port:
+    type: integer
+    default: 443
+    description: OpenShift API & console port

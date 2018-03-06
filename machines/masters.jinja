@@ -58,8 +58,6 @@ resources:
     description: 'OpenShift instance group of Master nodes'
     region: {{ properties['region'] }}
     instanceTemplate: $(ref.{{ env['deployment'] }}-master-template.selfLink)
-#    targetPools:
-#    - $(ref.{{ env['deployment'] }}-master-network-lb-pool.selfLink)
     baseInstanceName: {{ env['deployment'] }}-master
     targetSize: {{ properties['openshift_master_instance_group_size'] }}
     namedPorts:
