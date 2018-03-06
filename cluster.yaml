@@ -1,0 +1,7 @@
+imports:
+- name: openshift-network.jinja
+  path: network/main.jinja
+
+resources:
+- name: openshift-network
+  type: openshift-network.jinja
