@@ -1,0 +1,21 @@
+info:
+  title: OpenShift master
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift Template for master nodes
+  version: 1.0
+
+#imports:
+#- path: master.cloudinit
+
+#required:
+#- region
+
+#properties:
+#  IPv4Range:
+#    type: string
+#    description: Range of the network
+#
+#  description:
+#    type: string
+#    default: "My super great network"
+#    description: Description of network

@@ -29,9 +29,9 @@ resources:
           value: |
             #cloud-config
             write_files:
-            - content: |
+            - path: /etc/sysconfig/docker-storage
+              content: |
                 DOCKER_STORAGE_OPTIONS='--storage-driver overlay2'
-              path: /etc/sysconfig/docker-storage
               permissions: '0644'
 
             runcmd:
