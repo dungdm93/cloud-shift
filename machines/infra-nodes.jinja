@@ -58,10 +58,10 @@ resources:
         onHostMaintenance: MIGRATE
         automaticRestart: true
         preemptible: false
-    metadata:
-      dependsOn:
-      - {{ env['deployment'] }}-network
-      - {{ env['deployment'] }}-empty-image
+  metadata:
+    dependsOn:
+    - {{ env['deployment'] }}-network
+    - {{ env['deployment'] }}-empty-image
 - name: {{ env['deployment'] }}-infra-node-group
   type: compute.v1.regionInstanceGroupManager
   properties:

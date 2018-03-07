@@ -8,6 +8,8 @@ imports:
   path: machines/masters.jinja
 - name: openshift-infra-nodes.jinja
   path: machines/infra-nodes.jinja
+- name: openshift-app-nodes.jinja
+  path: machines/app-nodes.jinja
 
 resources:
 - name: openshift-network
@@ -28,3 +30,9 @@ resources:
   properties:
     region: us-central1
     openshift_infra_instance_group_size: 1
+- name: openshift-app-nodes
+  type: openshift-app-nodes.jinja
+  properties:
+    region: us-central1
+    openshift_app_instance_group_size: 1
+    openshift_app_machine_type: n1-standard-2
