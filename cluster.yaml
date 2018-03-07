@@ -1,6 +1,9 @@
 imports:
 - name: openshift-network.jinja
   path: network/main.jinja
+
+- name: openshift-gold-image.jinja
+  path: machines/gold-image.jinja
 - name: openshift-masters.jinja
   path: machines/masters.jinja
 - name: openshift-infra-nodes.jinja
@@ -9,6 +12,9 @@ imports:
 resources:
 - name: openshift-network
   type: openshift-network.jinja
+
+- name: openshift-gold-image
+  type: openshift-gold-image.jinja
 - name: openshift-masters
   type: openshift-masters.jinja
   properties:

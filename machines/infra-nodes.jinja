@@ -28,43 +28,23 @@ resources:
         type: PERSISTENT
         boot: false
         initializeParams:
-          diskSizeGb: {{ properties['openshift_infra_docker_disk_size'] }}
-          diskType:   pd-ssd
+          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
+          diskSizeGb:   {{ properties['openshift_infra_docker_disk_size'] }}
+          diskType:     pd-ssd
         autoDelete: true
       - deviceName: openshift
         type: PERSISTENT
         boot: false
         initializeParams:
-          diskSizeGb: {{ properties['openshift_infra_openshift_disk_size'] }}
-          diskType:   pd-ssd
+          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
+          diskSizeGb:   {{ properties['openshift_infra_openshift_disk_size'] }}
+          diskType:     pd-ssd
         autoDelete: true
       metadata:
         items:
         - key: user-data
           value: |
-            #cloud-config
-            write_files:
-            - path: /etc/sysconfig/docker-storage
-              content: |
-                DOCKER_STORAGE_OPTIONS='--storage-driver overlay2'
-              permissions: '0644'
-
-            fs_setup:
-            - label: docker
-              filesystem: xfs
-              device: /dev/disk/by-id/google-docker
-              partition: none
-            - label: osl
-              filesystem: xfs
-              device: /dev/disk/by-id/google-openshift
-              partition: none
-
-            mounts:
-            - [ '/dev/disk/by-id/google-docker', '/var/lib/docker', 'xfs', 'defaults', '0', '0' ]
-            - [ '/dev/disk/by-id/google-openshift', '/var/lib/origin/openshift.local.volumes', 'xfs', 'defaults,gquota', '0', '0' ]
-
-            runcmd:
-            - [ /usr/sbin/restorecon, -R, /var/lib/docker ]
+            {{ imports['infra-nodes.cloudinit'] | indent(12) }}
       serviceAccounts:
       - scopes:
         - https://www.googleapis.com/auth/cloud.useraccounts.readonly
@@ -81,6 +61,7 @@ resources:
     metadata:
       dependsOn:
       - {{ env['deployment'] }}-network
+      - {{ env['deployment'] }}-empty-image
 - name: {{ env['deployment'] }}-infra-node-group
   type: compute.v1.regionInstanceGroupManager
   properties:

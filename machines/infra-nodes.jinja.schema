@@ -4,8 +4,8 @@ info:
   description: OpenShift Template for infra nodes
   version: 1.0
 
-#imports:
-#- path: infra-nodes.cloudinit
+imports:
+- path: infra-nodes.cloudinit
 
 required:
 - region
