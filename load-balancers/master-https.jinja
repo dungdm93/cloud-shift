@@ -31,17 +31,21 @@ resources:
     - projects/{{ env['project'] }}/global/sslCertificates/ocp-master-https-lb-cert
 
 # Master HTTPS frontend
+{% if properties['openshift_static_ips'] %}
 - name: {{ env['deployment'] }}-master-https-lb-ip
   type: compute.v1.globalAddress
   properties:
     description: 'IP address of OpenShift masters load balance'
     addressType: EXTERNAL
     ipVersion:   IPV4
+{% endif %}
 - name: {{ env['deployment'] }}-master-https-lb-forwarding-rule
   type: compute.v1.globalForwardingRule
   properties:
     description: 'OpenShift masters HTTPS frontend'
+    {% if properties['openshift_static_ips'] %}
     IPAddress:  $(ref.{{ env['deployment'] }}-master-https-lb-ip.selfLink)
+    {% endif %}
     IPProtocol: TCP
     portRange:  $(ref.{{ env['deployment'] }}-master-https-health-check.httpsHealthCheck.port)
     target: $(ref.{{ env['deployment'] }}-master-https-lb-target-proxy.selfLink)

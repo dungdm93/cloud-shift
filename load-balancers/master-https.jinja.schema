@@ -1,0 +1,17 @@
+info:
+  title: OpenShift master HTTPS load balancer
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift Template for Master HTTPS load balancer
+  version: 1.0
+
+#imports:
+#- path: dependency.jinja
+
+#required:
+#- region
+
+properties:
+  openshift_static_ips:
+    type: boolean
+    default: false
+    description: Specify cluster should reserve IPs for load balancers
