@@ -1,0 +1,48 @@
+resources:
+# Master HTTPS backend
+- name: {{ env['deployment'] }}-master-https-lb-backend-service
+  type: compute.v1.backendService
+  properties:
+    description: 'OpenShift masters HTTPS backend'
+    backends:
+    - group: $(ref.{{ env['deployment'] }}-master-group.instanceGroup)
+      balancingMode:  UTILIZATION
+      maxUtilization: 0.8
+    healthChecks:
+    - $(ref.{{ env['deployment'] }}-master-https-health-check.selfLink)
+    timeoutSec: 300
+    protocol: HTTPS
+    portName: $(ref.{{ env['deployment'] }}-master-https-health-check.httpsHealthCheck.portName)
+    loadBalancingScheme: EXTERNAL
+
+# Master HTTPS router
+- name: {{ env['deployment'] }}-master-https-lb-url-map
+  type: compute.v1.urlMap
+  properties:
+    description: 'OpenShift masters HTTPS routing rules'
+    defaultService: $(ref.{{ env['deployment'] }}-master-https-lb-backend-service.selfLink)
+#TODO SSL certificate
+- name: {{ env['deployment'] }}-master-https-lb-target-proxy
+  type: compute.v1.targetHttpsProxy
+  properties:
+    description: 'OpenShift masters target HTTPS proxy'
+    urlMap: $(ref.{{ env['deployment'] }}-master-https-lb-url-map.selfLink)
+    sslCertificates:
+    - projects/{{ env['project'] }}/global/sslCertificates/ocp-master-https-lb-cert
+
+# Master HTTPS frontend
+- name: {{ env['deployment'] }}-master-https-lb-ip
+  type: compute.v1.globalAddress
+  properties:
+    description: 'IP address of OpenShift masters load balance'
+    addressType: EXTERNAL
+    ipVersion:   IPV4
+- name: {{ env['deployment'] }}-master-https-lb-forwarding-rule
+  type: compute.v1.globalForwardingRule
+  properties:
+    description: 'OpenShift masters HTTPS frontend'
+    IPAddress:  $(ref.{{ env['deployment'] }}-master-https-lb-ip.selfLink)
+    IPProtocol: TCP
+    portRange:  $(ref.{{ env['deployment'] }}-master-https-health-check.httpsHealthCheck.port)
+    target: $(ref.{{ env['deployment'] }}-master-https-lb-target-proxy.selfLink)
+    loadBalancingScheme: EXTERNAL

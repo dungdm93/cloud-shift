@@ -11,6 +11,10 @@ imports:
 - name: openshift-app-nodes.jinja
   path: machines/app-nodes.jinja
 
+- name: openshift-master-https-lb.jinja
+  path: load-balancers/master-https.jinja
+
+
 resources:
 - name: openshift-network
   type: openshift-network.jinja
@@ -36,3 +40,6 @@ resources:
     region: us-central1
     openshift_app_instance_group_size: 1
     openshift_app_machine_type: n1-standard-2
+
+- name: openshift-master-https-lb
+  type: openshift-master-https-lb.jinja
