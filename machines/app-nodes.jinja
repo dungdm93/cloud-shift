@@ -1,0 +1,72 @@
+resources:
+- name: {{ env['deployment'] }}-app-node-template
+  type: compute.v1.instanceTemplate
+  properties:
+    description: 'OpenShift template for App nodes'
+    properties:
+      tags:
+        items:
+        - openshift
+        - openshift-node
+        - openshift-app-node
+      machineType: {{ properties['openshift_app_machine_type'] }}
+      networkInterfaces:
+      - network: $(ref.{{ env['deployment'] }}-network.selfLink)
+        accessConfigs:
+        - name: External NAT
+          type: ONE_TO_ONE_NAT
+      disks:
+      - deviceName: boot
+        type: PERSISTENT
+        boot: true
+        initializeParams:
+          sourceImage:  projects/centos-cloud/global/images/family/centos-7
+          diskSizeGb:   {{ properties['openshift_app_boot_disk_size'] }}
+          diskType:     pd-standard
+        autoDelete: true
+      - deviceName: docker
+        type: PERSISTENT
+        boot: false
+        initializeParams:
+          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
+          diskSizeGb:   {{ properties['openshift_app_docker_disk_size'] }}
+          diskType:     pd-ssd
+        autoDelete: true
+      - deviceName: openshift
+        type: PERSISTENT
+        boot: false
+        initializeParams:
+          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
+          diskSizeGb:   {{ properties['openshift_app_openshift_disk_size'] }}
+          diskType:     pd-ssd
+        autoDelete: true
+      metadata:
+        items:
+        - key: user-data
+          value: |
+            {{ imports['app-nodes.cloudinit'] | indent(12) }}
+      serviceAccounts:
+      - scopes:
+        - https://www.googleapis.com/auth/cloud.useraccounts.readonly
+        - https://www.googleapis.com/auth/compute
+        - https://www.googleapis.com/auth/devstorage.read_only
+        - https://www.googleapis.com/auth/logging.write
+        - https://www.googleapis.com/auth/monitoring.write
+        - https://www.googleapis.com/auth/service.management.readonly
+        - https://www.googleapis.com/auth/servicecontrol
+      scheduling:
+        onHostMaintenance: MIGRATE
+        automaticRestart: true
+        preemptible: false
+    metadata:
+      dependsOn:
+      - {{ env['deployment'] }}-network
+      - {{ env['deployment'] }}-empty-image
+- name: {{ env['deployment'] }}-app-node-group
+  type: compute.v1.regionInstanceGroupManager
+  properties:
+    description: 'OpenShift instance group of App nodes'
+    region: {{ properties['region'] }}
+    instanceTemplate: $(ref.{{ env['deployment'] }}-node-template.selfLink)
+    baseInstanceName: {{ env['deployment'] }}-app-node
+    targetSize: {{ properties['openshift_app_instance_group_size'] }}

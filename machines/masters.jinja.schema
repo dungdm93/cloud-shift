@@ -1,7 +1,7 @@
 info:
   title: OpenShift master
   author: Dzung Dang Minh <dungdm93@live.com>
-  description: OpenShift Template for master nodes
+  description: OpenShift Template for Master nodes
   version: 1.0
 
 imports:
