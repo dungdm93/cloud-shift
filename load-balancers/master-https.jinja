@@ -12,7 +12,7 @@ resources:
     - $(ref.{{ env['deployment'] }}-master-https-health-check.selfLink)
     timeoutSec: 300
     protocol: HTTPS
-    portName: $(ref.{{ env['deployment'] }}-master-https-health-check.httpsHealthCheck.portName)
+    portName: openshift-web-console
     loadBalancingScheme: EXTERNAL
 
 # Master HTTPS router
@@ -31,7 +31,7 @@ resources:
     - projects/{{ env['project'] }}/global/sslCertificates/ocp-master-https-lb-cert
 
 # Master HTTPS frontend
-{% if properties['openshift_static_ips'] %}
+{% if properties['openshift_master_https_lb_reserve_ip'] %}
 - name: {{ env['deployment'] }}-master-https-lb-ip
   type: compute.v1.globalAddress
   properties:
@@ -43,10 +43,10 @@ resources:
   type: compute.v1.globalForwardingRule
   properties:
     description: 'OpenShift masters HTTPS frontend'
-    {% if properties['openshift_static_ips'] %}
+    {% if properties['openshift_master_https_lb_reserve_ip'] %}
     IPAddress:  $(ref.{{ env['deployment'] }}-master-https-lb-ip.selfLink)
     {% endif %}
     IPProtocol: TCP
-    portRange:  $(ref.{{ env['deployment'] }}-master-https-health-check.httpsHealthCheck.port)
+    portRange:  443
     target: $(ref.{{ env['deployment'] }}-master-https-lb-target-proxy.selfLink)
     loadBalancingScheme: EXTERNAL

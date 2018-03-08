@@ -11,7 +11,7 @@ info:
 #- region
 
 properties:
-  openshift_static_ips:
+  openshift_master_https_lb_reserve_ip:
     type: boolean
     default: false
-    description: Specify cluster should reserve IPs for load balancers
+    description: Master HTTPS load balancer use static IP (instead of ephemeral IP)

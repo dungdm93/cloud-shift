@@ -53,7 +53,7 @@ resources:
     baseInstanceName: {{ env['deployment'] }}-master
     targetSize: {{ properties['openshift_master_instance_group_size'] }}
     namedPorts:
-    - name: {{ env['deployment'] }}-web-console
+    - name: openshift-web-console
       port: {{ properties['openshift_console_port'] }}
 - name: {{ env['deployment'] }}-master-https-health-check
   type: compute.v1.healthCheck
@@ -66,6 +66,6 @@ resources:
     type: HTTPS
     httpsHealthCheck:
       port:        {{ properties['openshift_console_port'] }}
-      portName:    {{ env['deployment'] }}-web-console
+      portName:    openshift-web-console
       requestPath: /healthz
       proxyHeader: NONE
