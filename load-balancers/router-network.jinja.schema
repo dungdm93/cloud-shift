@@ -1,0 +1,22 @@
+info:
+  title: OpenShift router network load balancer
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift Template for Router network load balancer
+  version: 1.0
+
+#imports:
+#- path: dependency.jinja
+
+required:
+- region
+
+properties:
+  region:
+    type: string
+    metadata: gce-region
+    description: Region to run
+
+  openshift_router_network_lb_reserve_ip:
+    type: boolean
+    default: false
+    description: Router network load balancer use static IP (instead of ephemeral IP)

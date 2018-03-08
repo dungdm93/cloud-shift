@@ -1,0 +1,31 @@
+resources:
+- name: {{ env['deployment'] }}-router-network-lb-target-pool
+  type: compute.v1.targetPool
+  properties:
+    description: 'OpenShift router network Backend'
+    region: {{ properties['region'] }}
+    healthChecks:
+    - $(ref.{{ env['deployment'] }}-router-network-health-check.selfLink)
+{% if properties['openshift_router_network_lb_reserve_ip'] %}
+- name: {{ env['deployment'] }}-router-network-lb-ip
+  type: compute.v1.address
+  properties:
+    description: 'IP address for Routers network load balance'
+    region: {{ properties['region'] }}
+{% endif %}
+- name: {{ env['deployment'] }}-router-network-lb-forwarding-rule
+  type: compute.v1.forwardingRule
+  properties:
+    description: 'OpenShift router network Frontend'
+    region: {{ properties['region'] }}
+    {% if properties['openshift_router_network_lb_reserve_ip'] %}
+    IPAddress:  $(ref.{{ env['deployment'] }}-router-network-lb-ip.selfLink)
+    {% endif %}
+    IPProtocol: TCP
+    portRange:  80-443
+    target: $(ref.{{ env['deployment'] }}-router-network-lb-target-pool.selfLink)
+    loadBalancingScheme: EXTERNAL
+
+outputs:
+- name:  target-pool
+  value: $(ref.{{ env['deployment'] }}-router-network-lb-target-pool.selfLink)

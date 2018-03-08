@@ -15,6 +15,8 @@ imports:
   path: load-balancers/master-https.jinja
 - name: openshift-master-network-lb.jinja
   path: load-balancers/master-network.jinja
+- name: openshift-router-network-lb.jinja
+  path: load-balancers/router-network.jinja
 
 resources:
 - name: openshift-network
@@ -48,5 +50,9 @@ resources:
   type: openshift-master-https-lb.jinja
 - name: openshift-master-network-lb
   type: openshift-master-network-lb.jinja
+  properties:
+    region: us-central1
+- name: openshift-router-network-lb
+  type: openshift-router-network-lb.jinja
   properties:
     region: us-central1

@@ -68,5 +68,17 @@ resources:
     description: 'OpenShift instance group of Infra nodes'
     region: {{ properties['region'] }}
     instanceTemplate: $(ref.{{ env['deployment'] }}-infra-node-template.selfLink)
+    targetPools:      {{ properties['openshift_infra_target_pools'] }}
     baseInstanceName: {{ env['deployment'] }}-infra-node
     targetSize: {{ properties['openshift_infra_instance_group_size'] }}
+- name: {{ env['deployment'] }}-router-network-health-check
+  type: compute.v1.httpHealthCheck
+  properties:
+    description: 'Health check of OpenShift infra instances'
+    host:        NONE
+    requestPath: /healthz
+    port:        1936
+    checkIntervalSec:   5
+    timeoutSec:         5
+    unhealthyThreshold: 2
+    healthyThreshold:   2
