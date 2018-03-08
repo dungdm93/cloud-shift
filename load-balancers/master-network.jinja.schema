@@ -1,0 +1,17 @@
+info:
+  title: OpenShift master network load balancer
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift Template for Master network load balancer
+  version: 1.0
+
+#imports:
+#- path: dependency.jinja
+
+required:
+- region
+
+properties:
+  region:
+    type: string
+    metadata: gce-region
+    description: Region to run

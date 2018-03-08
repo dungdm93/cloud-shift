@@ -6,21 +6,23 @@ resources:
     region: {{ properties['region'] }}
     healthChecks:
     - $(ref.{{ env['deployment'] }}-master-network-health-check.selfLink)
-- name: {{ env['deployment'] }}-master-network-lb-ip
-  type: compute.v1.address
-  properties:
-    description: 'IP address for masters internal load balance'
-    region: {{ properties['region'] }}
+#- name: {{ env['deployment'] }}-master-network-lb-ip
+#  type: compute.v1.address
+#  properties:
+#    description: 'IP address for masters internal load balance'
+#    region: {{ properties['region'] }}
 - name: {{ env['deployment'] }}-master-network-lb-forwarding-rule
   type: compute.v1.forwardingRule
   properties:
     description: 'OpenShift master network Frontend'
     region: {{ properties['region'] }}
-    IPAddress:  $(ref.{{ env['deployment'] }}-master-network-lb-ip.selfLink)
+    # TODO make master-network internal
+    # IPAddress:  $(ref.{{ env['deployment'] }}-master-network-lb-ip.selfLink)
     IPProtocol: TCP
     portRange:  443
     target: $(ref.{{ env['deployment'] }}-master-network-lb-target-pool.selfLink)
     loadBalancingScheme: EXTERNAL
+    # network: $(ref.{{ env['deployment'] }}-network.selfLink)
 
 outputs:
 - name:  target-pool
