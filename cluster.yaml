@@ -13,7 +13,8 @@ imports:
 
 - name: openshift-master-https-lb.jinja
   path: load-balancers/master-https.jinja
-
+- name: openshift-master-network-lb.jinja
+  path: load-balancers/master-network.jinja
 
 resources:
 - name: openshift-network
@@ -25,10 +26,12 @@ resources:
   type: openshift-masters.jinja
   properties:
     region: us-central1
+    openshift_console_port: 443
     openshift_master_machine_type: n1-standard-1
     openshift_master_boot_disk_size: 10
     openshift_master_instance_group_size: 1
-    openshift_console_port: 443
+    openshift_master_target_pools:
+    - $(ref.openshift-master-network-lb.target-pool)
 - name: openshift-infra-nodes
   type: openshift-infra-nodes.jinja
   properties:
@@ -43,3 +46,7 @@ resources:
 
 - name: openshift-master-https-lb
   type: openshift-master-https-lb.jinja
+- name: openshift-master-network-lb
+  type: openshift-master-network-lb.jinja
+  properties:
+    region: us-central1

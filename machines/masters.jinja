@@ -50,6 +50,7 @@ resources:
     description: 'OpenShift instance group of Master nodes'
     region: {{ properties['region'] }}
     instanceTemplate: $(ref.{{ env['deployment'] }}-master-template.selfLink)
+    targetPools:      {{ properties['openshift_master_target_pools'] }}
     baseInstanceName: {{ env['deployment'] }}-master
     targetSize: {{ properties['openshift_master_instance_group_size'] }}
     namedPorts:
@@ -70,16 +71,13 @@ resources:
       requestPath: /healthz
       proxyHeader: NONE
 - name: {{ env['deployment'] }}-master-network-health-check
-  type: compute.v1.healthCheck
+  type: compute.v1.httpHealthCheck
   properties:
     description: 'Internal health check of OpenShift master instances'
+    host:        NONE
+    requestPath: /healthz
+    port:        8080
     checkIntervalSec:   5
     timeoutSec:         5
     unhealthyThreshold: 2
     healthyThreshold:   2
-    type: HTTP
-    httpHealthCheck:
-      port:        8080
-      portName:    openshift-master-internal
-      host:        NONE
-      requestPath: /healthz

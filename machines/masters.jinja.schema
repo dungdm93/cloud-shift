@@ -34,6 +34,11 @@ properties:
     minimum: 1
     description: Number of master instances
 
+  openshift_master_target_pools:
+    type: object
+    default: NONE
+    description: The $ref for all TargetPool resources to which master instances are added.
+
   openshift_console_port:
     type: integer
     default: 443
