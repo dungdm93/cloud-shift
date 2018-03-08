@@ -58,7 +58,7 @@ resources:
 - name: {{ env['deployment'] }}-master-https-health-check
   type: compute.v1.healthCheck
   properties:
-    description: 'OpenShift master instances HTTPS health check'
+    description: 'HTTPS health check of OpenShift master instances'
     checkIntervalSec:   5
     timeoutSec:         5
     unhealthyThreshold: 2
@@ -69,3 +69,17 @@ resources:
       portName:    openshift-web-console
       requestPath: /healthz
       proxyHeader: NONE
+- name: {{ env['deployment'] }}-master-network-health-check
+  type: compute.v1.healthCheck
+  properties:
+    description: 'Internal health check of OpenShift master instances'
+    checkIntervalSec:   5
+    timeoutSec:         5
+    unhealthyThreshold: 2
+    healthyThreshold:   2
+    type: HTTP
+    httpHealthCheck:
+      port:        8080
+      portName:    openshift-master-internal
+      host:        NONE
+      requestPath: /healthz

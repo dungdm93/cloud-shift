@@ -1,0 +1,27 @@
+resources:
+- name: {{ env['deployment'] }}-master-network-lb-target-pool
+  type: compute.v1.targetPool
+  properties:
+    description: 'OpenShift master network Backend'
+    region: {{ properties['region'] }}
+    healthChecks:
+    - $(ref.{{ env['deployment'] }}-master-network-health-check.selfLink)
+- name: {{ env['deployment'] }}-master-network-lb-ip
+  type: compute.v1.address
+  properties:
+    description: 'IP address for masters internal load balance'
+    region: {{ properties['region'] }}
+- name: {{ env['deployment'] }}-master-network-lb-forwarding-rule
+  type: compute.v1.forwardingRule
+  properties:
+    description: 'OpenShift master network Frontend'
+    region: {{ properties['region'] }}
+    IPAddress:  $(ref.{{ env['deployment'] }}-master-network-lb-ip.selfLink)
+    IPProtocol: TCP
+    portRange:  443
+    target: $(ref.{{ env['deployment'] }}-master-network-lb-target-pool.selfLink)
+    loadBalancingScheme: EXTERNAL
+
+outputs:
+- name:  target-pool
+  value: $(ref.{{ env['deployment'] }}-master-network-lb-target-pool.selfLink)
