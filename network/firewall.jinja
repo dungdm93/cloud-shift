@@ -1,0 +1,75 @@
+resources:
+- name: {{ env['deployment'] }}-allow-icmp
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow ICMP from anywhere'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 65534
+    sourceRanges:
+    - 0.0.0.0/0
+    allowed:
+    - IPProtocol: icmp
+    direction: INGRESS
+{% if properties['openshift_use_bastion'] %}
+- name: {{ env['deployment'] }}-allow-ssh-external
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow SSH from anywhere to bastion'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 65534
+    sourceRanges:
+    - 0.0.0.0/0
+    targetTags:
+    - openshift-bastion
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 22
+    direction: INGRESS
+- name: {{ env['deployment'] }}-allow-ssh-internal
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow SSH from bastion to other nodes in cluster'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 65534
+    sourceTags:
+    - openshift-bastion
+    # targetTags:
+    #   'All instances in the network'
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 22
+    direction: INGRESS
+{% else %}
+- name: {{ env['deployment'] }}-allow-ssh
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow SSH from anywhere'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 65534
+    sourceRanges:
+    - 0.0.0.0/0
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 22
+    direction: INGRESS
+{% endif %}
+{% if properties['openshift_firewall_allow_internal'] %}
+- name: {{ env['deployment'] }}-allow-internal
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow internal traffic on this network'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 65534
+    sourceTags:
+    - openshift
+    targetTags:
+    - openshift
+    allowed:
+    - IPProtocol: tcp
+    - IPProtocol: udp
+    - IPProtocol: icmp
+    direction: INGRESS
+{% endif %}

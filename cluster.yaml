@@ -1,6 +1,8 @@
 imports:
 - name: openshift-network.jinja
   path: network/main.jinja
+- name: openshift-firewall.jinja
+  path: network/firewall.jinja
 
 - name: openshift-gold-image.jinja
   path: machines/gold-image.jinja
@@ -21,6 +23,10 @@ imports:
 resources:
 - name: openshift-network
   type: openshift-network.jinja
+- name: openshift-firewall
+  type: openshift-firewall.jinja
+  properties:
+    openshift_firewall_allow_internal: true
 
 - name: openshift-gold-image
   type: openshift-gold-image.jinja
@@ -39,6 +45,8 @@ resources:
   properties:
     region: us-central1
     openshift_infra_instance_group_size: 1
+    openshift_infra_target_pools:
+    - $(ref.openshift-router-network-lb.target-pool)
 - name: openshift-app-nodes
   type: openshift-app-nodes.jinja
   properties:

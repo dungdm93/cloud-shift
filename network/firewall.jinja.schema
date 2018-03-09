@@ -1,0 +1,22 @@
+info:
+  title: OpenShift firewall
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift network firewall
+  version: 1.0
+
+#imports:
+#- path: dependency.jinja
+#
+#required:
+#- region
+
+properties:
+  openshift_use_bastion:
+    type: boolean
+    default: false
+    description: Restrict SSH using bastion host
+
+  openshift_firewall_allow_internal:
+    type: boolean
+    default: false
+    description: DEBUG mode! Allow all internal connection.
