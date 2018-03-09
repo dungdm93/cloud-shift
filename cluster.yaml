@@ -26,6 +26,7 @@ resources:
 - name: openshift-firewall
   type: openshift-firewall.jinja
   properties:
+    openshift_console_port: 443
     openshift_firewall_allow_internal: true
 
 - name: openshift-gold-image

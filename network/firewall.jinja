@@ -73,3 +73,17 @@ resources:
     - IPProtocol: icmp
     direction: INGRESS
 {% endif %}
+- name: {{ env['deployment'] }}-allow-master-https
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow HTTPS to masters'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 1000
+    sourceRanges:
+    - 0.0.0.0/0
+    targetTags:
+    - openshift-master
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - {{ properties['openshift_console_port'] }}
