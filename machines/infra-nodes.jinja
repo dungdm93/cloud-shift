@@ -24,22 +24,22 @@ resources:
           diskSizeGb:   {{ properties['openshift_infra_boot_disk_size'] }}
           diskType:     pd-standard
         autoDelete: true
-      - deviceName: docker
-        type: PERSISTENT
-        boot: false
-        initializeParams:
-          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
-          diskSizeGb:   {{ properties['openshift_infra_docker_disk_size'] }}
-          diskType:     pd-ssd
-        autoDelete: true
-      - deviceName: openshift
-        type: PERSISTENT
-        boot: false
-        initializeParams:
-          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
-          diskSizeGb:   {{ properties['openshift_infra_openshift_disk_size'] }}
-          diskType:     pd-ssd
-        autoDelete: true
+#      - deviceName: docker
+#        type: PERSISTENT
+#        boot: false
+#        initializeParams:
+#          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
+#          diskSizeGb:   {{ properties['openshift_infra_docker_disk_size'] }}
+#          diskType:     pd-ssd
+#        autoDelete: true
+#      - deviceName: openshift
+#        type: PERSISTENT
+#        boot: false
+#        initializeParams:
+#          sourceImage:  $(ref.{{ env['deployment'] }}-empty-image.selfLink)
+#          diskSizeGb:   {{ properties['openshift_infra_openshift_disk_size'] }}
+#          diskType:     pd-ssd
+#        autoDelete: true
       metadata:
         items:
         - key: user-data

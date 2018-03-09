@@ -46,6 +46,7 @@ resources:
   properties:
     region: us-central1
     openshift_infra_instance_group_size: 1
+    openshift_infra_machine_type: n1-standard-1
     openshift_infra_target_pools:
     - $(ref.openshift-router-network-lb.target-pool)
 - name: openshift-app-nodes
@@ -53,7 +54,7 @@ resources:
   properties:
     region: us-central1
     openshift_app_instance_group_size: 1
-    openshift_app_machine_type: n1-standard-2
+    openshift_app_machine_type: n1-standard-1
 
 - name: openshift-master-https-lb
   type: openshift-master-https-lb.jinja
