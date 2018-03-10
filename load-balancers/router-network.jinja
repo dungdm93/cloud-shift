@@ -1,4 +1,16 @@
 resources:
+# Router network backend
+- name: {{ env['deployment'] }}-router-network-health-check
+  type: compute.v1.httpHealthCheck
+  properties:
+    description: 'Health check of OpenShift infra instances'
+    host:        ''
+    requestPath: /healthz
+    port:        1936
+    checkIntervalSec:   5
+    timeoutSec:         5
+    unhealthyThreshold: 2
+    healthyThreshold:   2
 - name: {{ env['deployment'] }}-router-network-lb-target-pool
   type: compute.v1.targetPool
   properties:
@@ -6,6 +18,8 @@ resources:
     region: {{ properties['region'] }}
     healthChecks:
     - $(ref.{{ env['deployment'] }}-router-network-health-check.selfLink)
+
+# Router network frontend
 {% if properties['openshift_router_network_lb_reserve_ip'] %}
 - name: {{ env['deployment'] }}-router-network-lb-ip
   type: compute.v1.address

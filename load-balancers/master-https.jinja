@@ -1,5 +1,19 @@
 resources:
 # Master HTTPS backend
+- name: {{ env['deployment'] }}-master-https-health-check
+  type: compute.v1.healthCheck
+  properties:
+    description: 'HTTPS health check of OpenShift master instances'
+    checkIntervalSec:   5
+    timeoutSec:         5
+    unhealthyThreshold: 2
+    healthyThreshold:   2
+    type: HTTPS
+    httpsHealthCheck:
+      port:        {{ properties['openshift_console_port'] }}
+      portName:    openshift-web-console
+      requestPath: /healthz
+      proxyHeader: NONE
 - name: {{ env['deployment'] }}-master-https-lb-backend-service
   type: compute.v1.backendService
   properties:
