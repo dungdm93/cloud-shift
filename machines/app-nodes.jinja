@@ -68,5 +68,6 @@ resources:
     description: 'OpenShift instance group of App nodes'
     region: {{ properties['region'] }}
     instanceTemplate: $(ref.{{ env['deployment'] }}-app-node-template.selfLink)
+    targetPools:      {{ properties['openshift_app_target_pools'] }}
     baseInstanceName: {{ env['deployment'] }}-app-node
     targetSize: {{ properties['openshift_app_instance_group_size'] }}

@@ -47,6 +47,6 @@ properties:
     description: Number of infra instances
 
   openshift_infra_target_pools:
-    type: ['array']
+    type: array
     default: []
     description: The $ref for all TargetPool resources to which infra instances are added.
