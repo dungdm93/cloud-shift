@@ -56,6 +56,7 @@ resources:
       - 22
     direction: INGRESS
 {% endif %}
+
 {% if properties['openshift_firewall_allow_internal'] %}
 - name: {{ env['deployment'] }}-allow-internal
   type: compute.v1.firewall
@@ -73,6 +74,9 @@ resources:
     - IPProtocol: icmp
     direction: INGRESS
 {% endif %}
+
+#For more information.
+#See: https://docs.openshift.org/latest/install_config/install/prerequisites.html#configuring-a-security-group
 - name: {{ env['deployment'] }}-allow-master-https
   type: compute.v1.firewall
   properties:
@@ -87,3 +91,80 @@ resources:
     - IPProtocol: tcp
       ports:
       - {{ properties['openshift_console_port'] }}
+- name: {{ env['deployment'] }}-allow-router-network
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow route traffic from internet to Infra nodes'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 1000
+    sourceRanges:
+    - 0.0.0.0/0
+    targetTags:
+    - openshift-infra-node
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 80
+      - 443
+
+- name: {{ env['deployment'] }}-allow-etcd-internal
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow etcd peer & client-server connection'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 1024
+    sourceTags:
+    - openshift-master
+    targetTags:
+    - openshift-master
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 2379
+      - 2380
+- name: {{ env['deployment'] }}-allow-dns-internal
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow internal connect to master DNS'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 1024
+    sourceTags:
+    - openshift
+    targetTags:
+    - openshift-master
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 8053
+    - IPProtocol: udp
+      ports:
+      - 8053
+- name: {{ env['deployment'] }}-allow-sdn-internal
+  type: compute.v1.firewall
+  properties:
+    description: 'Software-defined Networking (SDN) on internal cluster'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 1024
+    sourceTags:
+    - openshift
+    targetTags:
+    - openshift
+    allowed:
+    - IPProtocol: udp
+      ports:
+      - 4789
+- name: {{ env['deployment'] }}-allow-kubelet-internal
+  type: compute.v1.firewall
+  properties:
+    description: 'Allow kubelet connections from Masters'
+    network: $(ref.{{ env['deployment'] }}-network.selfLink)
+    priority: 1024
+    sourceTags:
+    - openshift-master
+    - openshift-infra-node
+    targetTags:
+    - openshift
+    allowed:
+    - IPProtocol: tcp
+      ports:
+      - 10250
