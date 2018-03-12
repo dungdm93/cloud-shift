@@ -1,0 +1,19 @@
+resources:
+- name: {{ env['deployment'] }}-master-https-lb
+  type: openshift-master-https.jinja
+  properties: {{ properties }}
+
+- name: {{ env['deployment'] }}-master-network-lb
+  type: openshift-master-network.jinja
+  properties: {{ properties }}
+
+- name: {{ env['deployment'] }}-router-network-lb
+  type: openshift-router-network.jinja
+  properties: {{ properties }}
+
+
+outputs:
+- name:  master-network-target-pool
+  value: $(ref.{{ env['deployment'] }}-master-network-lb.target-pool)
+- name:  router-network-target-pool
+  value: $(ref.{{ env['deployment'] }}-router-network-lb.target-pool)

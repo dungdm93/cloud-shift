@@ -1,0 +1,18 @@
+info:
+  title: OpenShift machines
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift machines
+  version: 1.0
+
+imports:
+- name: openshift-gold-image.jinja
+  path: gold-image.jinja
+
+- name: openshift-masters.jinja
+  path: masters.jinja
+
+- name: openshift-infra-nodes.jinja
+  path: infra-nodes.jinja
+
+- name: openshift-app-nodes.jinja
+  path: app-nodes.jinja

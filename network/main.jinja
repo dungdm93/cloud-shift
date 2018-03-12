@@ -3,3 +3,7 @@ resources:
   type: compute.v1.network
   properties:
     autoCreateSubnetworks: true
+
+- name: {{ env['deployment'] }}-firewall
+  type: openshift-firewall.jinja
+  properties: {{ properties }}

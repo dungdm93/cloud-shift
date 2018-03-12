@@ -1,0 +1,16 @@
+resources:
+- name: {{ env['deployment'] }}-gold-image
+  type: openshift-gold-image.jinja
+  properties: {{ properties }}
+
+- name: {{ env['deployment'] }}-masters
+  type: openshift-masters.jinja
+  properties: {{ properties }}
+
+- name: {{ env['deployment'] }}-infra-nodes
+  type: openshift-infra-nodes.jinja
+  properties: {{ properties }}
+
+- name: {{ env['deployment'] }}-app-nodes
+  type: openshift-app-nodes.jinja
+  properties: {{ properties }}

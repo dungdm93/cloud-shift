@@ -1,0 +1,15 @@
+info:
+  title: OpenShift load balancers
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift load balancers
+  version: 1.0
+
+imports:
+- name: openshift-master-https.jinja
+  path: master-https.jinja
+
+- name: openshift-master-network.jinja
+  path: master-network.jinja
+
+- name: openshift-router-network.jinja
+  path: router-network.jinja

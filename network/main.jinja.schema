@@ -1,0 +1,9 @@
+info:
+  title: OpenShift network
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift network
+  version: 1.0
+
+imports:
+- name: openshift-firewall.jinja
+  path: firewall.jinja

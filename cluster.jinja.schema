@@ -1,0 +1,15 @@
+info:
+  title: OpenShift cluster
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift cluster
+  version: 1.0
+
+imports:
+- name: openshift-network.jinja
+  path: network/main.jinja
+
+- name: openshift-machines.jinja
+  path: machines/main.jinja
+
+- name: openshift-load-balancers.jinja
+  path: load-balancers/main.jinja
