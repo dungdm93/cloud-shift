@@ -8,6 +8,9 @@ imports:
 - name: openshift-network.jinja
   path: network/main.jinja
 
+- name: openshift-bucket.jinja
+  path: bucket/main.jinja
+
 - name: openshift-machines.jinja
   path: machines/main.jinja
 

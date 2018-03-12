@@ -5,6 +5,11 @@ resources:
     openshift_console_port: 443
     openshift_firewall_allow_internal: true
 
+- name: {{ env['deployment'] }}-bucket
+  type: openshift-bucket.jinja
+  properties:
+    region: us-central1
+
 - name: {{ env['deployment'] }}-machines
   type: openshift-machines.jinja
   properties:

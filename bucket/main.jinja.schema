@@ -1,0 +1,17 @@
+info:
+  title: OpenShift Bucket
+  author: Dzung Dang Minh <dungdm93@live.com>
+  description: OpenShift Google Cloud Storage (GCS) Bucket
+  version: 1.0
+
+#imports:
+#- path: dependency.jinja
+
+required:
+- region
+
+properties:
+  region:
+    type: string
+    metadata: gce-region
+    description: Region to run
