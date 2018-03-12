@@ -1,0 +1,6 @@
+resources:
+- name: {{ env['project'] }}-{{ env['deployment'] }}-bucket
+  type: storage.v1.bucket
+  properties:
+    location: {{ properties['region'] }}
+    storageClass: REGIONAL
