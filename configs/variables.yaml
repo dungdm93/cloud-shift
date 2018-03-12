@@ -1,0 +1,93 @@
+ansible_user: cloud-user
+ansible_become: yes
+
+openshift_deployment_type: origin
+openshift_release: v3.7
+openshift_pkg_version: -3.7.0
+
+# Configure master API and console ports.
+openshift_master_api_port: 8443
+openshift_master_console_port: 8443
+# Load Balancers
+openshift_master_default_subdomain:       apps.example.com
+openshift_master_cluster_hostname:        internal-master.example.com
+openshift_master_cluster_public_hostname: master.example.com
+openshift_master_cluster_method:          native
+
+# Authentication
+openshift_master_identity_providers:
+- name: 'google'
+  kind: 'GoogleIdentityProvider'
+  login: true
+  challenge: false
+  mapping_method: 'claim'
+  clientID: '987654321-qwerty0918273645.apps.googleusercontent.com'
+  clientSecret: 'superSecret-xxx'
+  hostedDomain: ''
+
+openshift_cloudprovider_kind: gce
+osm_default_node_selector: { region: 'primary' }
+openshift_hosted_router_selector: { region: 'infra' }
+
+# OpenShift Registry Options
+openshift_hosted_registry_selector: { region: 'infra' }
+openshift_hosted_registry_storage_kind: object
+openshift_hosted_registry_storage_provider: gcs
+openshift_hosted_registry_storage_gcs_bucket: openshift-bucket
+openshift_hosted_registry_storage_gcs_rootdirectory: /registry
+openshift_hosted_registry_pullthrough:   true
+openshift_hosted_registry_acceptschema2: true
+openshift_hosted_registry_enforcequota:  true
+
+# Metrics deployment
+# See: roles/openshift_metrics/defaults/main.yaml
+#openshift_hosted_metrics_deploy: false
+#openshift_hosted_metrics_storage_volume_size: 20Gi
+#openshift_hosted_metrics_storage_kind: dynamic
+openshift_metrics_install_metrics: true
+openshift_metrics_project: openshift-infra
+openshift_metrics_hawkular_hostname: hawkular.{{ openshift_master_default_subdomain }}
+openshift_metrics_storage_kind: dynamic
+openshift_metrics_storage_volume_size: 20Gi
+openshift_metrics_storage_labels: {'storage': 'metrics'}
+openshift_metrics_hawkular_nodeselector:  { 'region': 'infra' }
+openshift_metrics_cassandra_nodeselector: { 'region': 'infra' }
+openshift_metrics_heapster_nodeselector:  { 'region': 'infra' }
+
+# Aggregated Logging deployment
+# See: roles/openshift_logging/defaults/main.yml
+#openshift_hosted_logging_deploy: false
+#openshift_logging_es_pvc_size: 100Gi
+openshift_logging_install_logging: true
+openshift_logging_namespace: logging
+openshift_logging_kibana_hostname: kibana.{{ openshift_master_default_subdomain }}
+openshift_logging_storage_kind: dynamic
+openshift_logging_storage_volume_size: 100Gi
+openshift_logging_storage_labels: {'storage': 'logging'}
+openshift_logging_curator_nodeselector:     { 'region': 'infra' }
+openshift_logging_kibana_nodeselector:      { 'region': 'infra' }
+openshift_logging_es_nodeselector:          { 'region': 'infra' }
+#openshift_logging_fluentd_nodeselector:     { 'region': 'infra' }
+
+# Prometheus deployment
+# See: roles/openshift_prometheus/README.md
+#openshift_hosted_prometheus_deploy: true
+#openshift_prometheus_namespace: openshift-metrics
+#openshift_prometheus_node_selector: { 'region': 'infra' }
+#openshift_prometheus_storage_kind: dynamic
+#openshift_prometheus_storage_type: pvc
+#openshift_prometheus_storage_volume_size: 10Gi
+#openshift_prometheus_storage_labels: {'storage': 'prometheus'}
+
+# Service catalog
+openshift_enable_service_catalog: true
+template_service_broker_install: true
+template_service_broker_selector: { 'region': 'infra' }
+openshift_template_service_broker_namespaces: ['openshift']
+openshift_master_dynamic_provisioning_enabled: true
+
+# CloudForms/ManageIQ (CFME/MIQ) Configuration
+# See: roles/openshift_management/README.md
+openshift_management_install_management: true
+openshift_management_project: openshift-management
+openshift_management_storage_class: cloudprovider
