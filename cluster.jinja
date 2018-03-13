@@ -17,17 +17,17 @@ resources:
     openshift_master_api_console_port: 443
 
     openshift_master_machine_type: n1-standard-1
-    openshift_master_instance_group_size: 3
+    openshift_master_instance_group_size: 2
     openshift_master_target_pools:
     - $(ref.{{ env['deployment'] }}-load-balancers.master-network-target-pool)
 
-    openshift_infra_machine_type: n1-standard-1
+    openshift_infra_machine_type: n1-standard-4
     openshift_infra_instance_group_size: 1
     openshift_infra_target_pools:
     - $(ref.{{ env['deployment'] }}-load-balancers.router-network-target-pool)
 
     openshift_app_machine_type: n1-standard-1
-    openshift_app_instance_group_size: 1
+    openshift_app_instance_group_size: 2
 
 - name: {{ env['deployment'] }}-load-balancers
   type: openshift-load-balancers.jinja

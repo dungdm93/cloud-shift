@@ -1,13 +1,16 @@
-ansible_user: cloud-user
-ansible_become: yes
-
 openshift_deployment_type: origin
+containerized: false
 openshift_release: v3.7
 openshift_pkg_version: -3.7.0
 
 # Configure master API and console ports.
 openshift_master_api_port: 8443
 openshift_master_console_port: 8443
+# OpenShift SDN selection
+# options are 'redhat/openshift-ovs-subnet', 'redhat/openshift-ovs-multitenant', 'redhat/openshift-ovs-networkpolicy'
+# See: https://docs.openshift.org/latest/install_config/configuring_sdn.html
+os_sdn_network_plugin_name: 'redhat/openshift-ovs-multitenant'
+osm_cluster_network_cidr: 172.16.0.0/16
 # Load Balancers
 openshift_master_default_subdomain:       apps.example.com
 openshift_master_cluster_hostname:        internal-master.example.com
@@ -26,11 +29,11 @@ openshift_master_identity_providers:
   hostedDomain: ''
 
 openshift_cloudprovider_kind: gce
-osm_default_node_selector: { region: 'primary' }
-openshift_hosted_router_selector: { region: 'infra' }
+osm_default_node_selector: 'region=primary'
+openshift_hosted_router_selector: 'region=infra'
 
 # OpenShift Registry Options
-openshift_hosted_registry_selector: { region: 'infra' }
+openshift_hosted_registry_selector: 'region=infra'
 openshift_hosted_registry_storage_kind: object
 openshift_hosted_registry_storage_provider: gcs
 openshift_hosted_registry_storage_gcs_bucket: openshift-bucket
