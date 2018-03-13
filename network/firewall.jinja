@@ -90,7 +90,7 @@ resources:
     allowed:
     - IPProtocol: tcp
       ports:
-      - {{ properties['openshift_console_port'] }}
+      - {{ properties['openshift_master_api_console_port'] }}
 - name: {{ env['deployment'] }}-allow-router-network
   type: compute.v1.firewall
   properties:

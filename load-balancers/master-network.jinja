@@ -39,7 +39,7 @@ resources:
     IPAddress:  $(ref.{{ env['deployment'] }}-master-network-lb-ip.selfLink)
     {% endif %}
     IPProtocol: TCP
-    portRange:  443
+    portRange:  {{ properties['openshift_master_api_console_port'] }}
     target: $(ref.{{ env['deployment'] }}-master-network-lb-target-pool.selfLink)
     loadBalancingScheme: EXTERNAL
 

@@ -54,5 +54,5 @@ resources:
     baseInstanceName: {{ env['deployment'] }}-master
     targetSize: {{ properties['openshift_master_instance_group_size'] }}
     namedPorts:
-    - name: openshift-web-console
-      port: {{ properties['openshift_console_port'] }}
+    - name: openshift-api-console
+      port: {{ properties['openshift_master_api_console_port'] }}

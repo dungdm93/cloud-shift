@@ -10,8 +10,8 @@ resources:
     healthyThreshold:   2
     type: HTTPS
     httpsHealthCheck:
-      port:        {{ properties['openshift_console_port'] }}
-      portName:    openshift-web-console
+      port:        {{ properties['openshift_master_api_console_port'] }}
+      portName:    openshift-api-console
       requestPath: /healthz
       proxyHeader: NONE
 - name: {{ env['deployment'] }}-master-https-lb-backend-service
@@ -26,7 +26,7 @@ resources:
     - $(ref.{{ env['deployment'] }}-master-https-health-check.selfLink)
     timeoutSec: 300
     protocol: HTTPS
-    portName: openshift-web-console
+    portName: openshift-api-console
     loadBalancingScheme: EXTERNAL
 
 # Master HTTPS router

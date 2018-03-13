@@ -16,10 +16,10 @@ properties:
     default: false
     description: Restrict SSH using bastion host
 
-  openshift_console_port:
+  openshift_master_api_console_port:
     type: integer
-    default: 443
-    description: OpenShift API & console port
+    default: 8443
+    description: OpenShift masters API & console port
 
   openshift_firewall_allow_internal:
     type: boolean

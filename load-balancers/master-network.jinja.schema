@@ -20,3 +20,8 @@ properties:
     type: boolean
     default: false
     description: Master network load balancer use static IP (instead of ephemeral IP)
+
+  openshift_master_api_console_port:
+    type: integer
+    default: 8443
+    description: OpenShift masters API & console port

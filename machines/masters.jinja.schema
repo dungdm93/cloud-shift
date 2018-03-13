@@ -39,7 +39,7 @@ properties:
     default: []
     description: The $ref for all TargetPool resources to which master instances are added.
 
-  openshift_console_port:
+  openshift_master_api_console_port:
     type: integer
-    default: 443
-    description: OpenShift API & console port
+    default: 8443
+    description: OpenShift masters API & console port

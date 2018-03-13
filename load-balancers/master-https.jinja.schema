@@ -16,7 +16,7 @@ properties:
     default: false
     description: Master HTTPS load balancer use static IP (instead of ephemeral IP)
 
-  openshift_console_port:
+  openshift_master_api_console_port:
     type: integer
-    default: 443
-    description: OpenShift API & console port
+    default: 8443
+    description: OpenShift masters API & console port
