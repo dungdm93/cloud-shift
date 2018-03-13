@@ -5,11 +5,11 @@ info:
   version: 1.0
 
 imports:
-- name: openshift-master-https.jinja
+- name: openshift-master-https-lb.jinja
   path: master-https.jinja
 
-- name: openshift-master-network.jinja
+- name: openshift-master-network-lb.jinja
   path: master-network.jinja
 
-- name: openshift-router-network.jinja
+- name: openshift-router-network-lb.jinja
   path: router-network.jinja

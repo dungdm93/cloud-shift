@@ -1,14 +1,14 @@
 resources:
 - name: {{ env['deployment'] }}-master-https-lb
-  type: openshift-master-https.jinja
+  type: openshift-master-https-lb.jinja
   properties: {{ properties }}
 
 - name: {{ env['deployment'] }}-master-network-lb
-  type: openshift-master-network.jinja
+  type: openshift-master-network-lb.jinja
   properties: {{ properties }}
 
 - name: {{ env['deployment'] }}-router-network-lb
-  type: openshift-router-network.jinja
+  type: openshift-router-network-lb.jinja
   properties: {{ properties }}
 
 
