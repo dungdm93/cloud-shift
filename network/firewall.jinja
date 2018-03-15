@@ -1,3 +1,6 @@
+#              Ingress                Egress
+# [ source ] ==========> [ target ] =========> [ destination ]
+#
 resources:
 - name: {{ env['deployment'] }}-allow-icmp
   type: compute.v1.firewall
